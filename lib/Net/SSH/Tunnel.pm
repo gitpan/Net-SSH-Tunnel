@@ -15,18 +15,18 @@ Supports both local and remote port forwarding.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 =head1 SYNOPSIS
 
 Perl module to setup / destroy a ssh tunnel.
 
-    # create a very short driver script.
+    create a very short driver script.
     $ vi driver.pl
     #!/usr/bin/perl
 
@@ -36,19 +36,37 @@ Perl module to setup / destroy a ssh tunnel.
     
     Net::SSH::Tunnel->run();
 
-    # run the driver script with options.
+    run the driver script with options.
     $ ./driver.pl --host dest.example.com --hostname hostname.example.com
     
-    # the above is equivalent to creating a local port forwarding like this:
-    # ssh -f -N -L 10000:dest.example.com:22 <effective username>@hostname.example.com
+    the above is equivalent to creating a local port forwarding like this:
+    ssh -f -N -L 10000:dest.example.com:22 <effective username>@hostname.example.com
 
-    # after the driver script is done, you can then do:
+    after the driver script is done, you can then do:
     ssh -p 10000 user@localhost
     
-    # Notes on testing:
-    # This module wraps around ssh and as such, requires authentication.
-    # I have included test_deeply.pl that asks for hostnames, runs ssh and establishes a tunnel.
-    # If you'd like to test manually, please use the script.
+    other usages:
+    Usage: ./driver.pl --port 10000 --host dest.example.com --hostport 22 --hostname hostname.example.com
+    Sets up a ssh tunnel.  Works on both local and remote forwarding.
+    In the example above, it will create a tunnel from your host to
+    hostname.example.com, where your local port 10000 is forwarded to
+    dest.example.com's port 22.
+
+    --hostname      specify the host where you create a tunnel from your host
+    --host          specify the destination of port forwarding
+    --user          user when connecting to <hostname>.  default: effective user
+    --type          specify local or remote, for forwarding.  default: local
+    --hostport      target port on <host>.  default: 22
+    --port          source port for forwarding.  default: 10000
+    --sshport       equivalent of -p <port> in ssh client.  default: 22
+    --action        'setup' or 'destroy' a tunnel.  default: setup
+    --help          prints the usage and exits
+    --debug         turn on debug messages
+    
+    Notes on testing:
+    This module wraps around ssh and as such, requires authentication.
+    I have included test_deeply.pl that asks for hostnames, runs ssh and establishes a tunnel.
+    If you'd like to test manually, please use the script.
 
 =head1 SUBROUTINES/METHODS
 
