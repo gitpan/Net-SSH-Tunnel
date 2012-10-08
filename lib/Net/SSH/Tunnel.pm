@@ -15,11 +15,11 @@ Supports both local and remote port forwarding.
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 =head1 SYNOPSIS
@@ -97,7 +97,7 @@ sub new {
 sub init {
     my $self = shift;
 
-    $self->{ opts } = {
+    my $opts = {
         hostport    => 22,
         port        => 10000,
         type        => 'local',
@@ -109,20 +109,22 @@ sub init {
     };
 
     GetOptions(
-        'hostname=s'    => \$self->{ opts }->{ hostname },
-        'host=s'        => \$self->{ opts }->{ host },
-        'type=s'        => \$self->{ opts }->{ type },
-        'hostport=i'    => \$self->{ opts }->{ hostport },
-        'port=i'        => \$self->{ opts }->{ port },
-        'user=s'        => \$self->{ opts }->{ user },
-        'sshport=i'     => \$self->{ opts }->{ sshport },
-        'destroy'       => sub { $self->{ opts }->{ action } = 'destroy' },
-        'help'          => \$self->{ opts }->{ help },
-        'debug'         => sub { $self->{ opts }->{ debug }++ }, # for various debug levels, if needed
+        $opts,
+        'hostname=s',
+        'host=s',
+        'type=s',
+        'hostport=i',
+        'port=i',
+        'user=s',
+        'sshport=i',
+        'destroy'   => sub { $opts->{ action } = 'destroy' },
+        'help'      => \$opts->{ help },
+        'debug'     => sub { $opts->{ debug }++ }, # for various debug levels, if needed
     );
 
-    $self->usage() if ( !$self->{ opts }->{ hostname } || !$self->{ opts }->{ host } || $self->{ opts }->{ type } !~ /local|remote/ || $self->{ opts }->{ help } );
-    Log::Log4perl->easy_init($DEBUG) if $self->{ opts }->{ debug };
+    $self->usage() if ( !$opts->{ hostname } || !$opts->{ host } || $opts->{ type } !~ /local|remote/ || $opts->{ help } );
+    Log::Log4perl->easy_init($DEBUG) if $opts->{ debug };
+    $self->{ opts } = $opts;
 
     chomp( $self->{ cmds }->{ ssh } = `which ssh` );
     chomp( $self->{ cmds }->{ ps } = `which ps` );
