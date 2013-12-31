@@ -15,11 +15,11 @@ Supports both local and remote port forwarding.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 
 =head1 SYNOPSIS
@@ -72,9 +72,7 @@ Perl module to setup / destroy a ssh tunnel.
 
 =head2 new
 
-    Description: The constructor.  Creates an object, invokes init() for argument parsing
-    Arguments: none
-    Returns: object
+    The constructor.  Creates an object, invokes init() for argument parsing
 
 =cut
 
@@ -88,9 +86,7 @@ sub new {
 
 =head2 init
 
-    Description: Arg parser.  Sets default values, uses Getopt::Long then do the necessary parsing.
-    Arguments: none
-    Returns: none, but updates the object with parsed args.  Croaks on error.
+    Arg parser.  Sets default values, uses Getopt::Long then do the necessary parsing.
     
 =cut
 
@@ -135,9 +131,7 @@ sub init {
 
 =head2 run
 
-    Description: Driver method to do the new()->init() dance, then calls appropriate methods based on the args
-    Arguments: none
-    Returns: none, but may croak on error
+    Driver method to do the new()->init() dance, then calls appropriate methods based on the args
     
 =cut
 
@@ -160,9 +154,7 @@ sub run {
 
 =head2 setup_tunnel
 
-    Description: Establishes a ssh tunnel based on the object info.
-    Arguments: none
-    Returns: none, but may croak on error
+    Establishes a ssh tunnel based on the object info.
     
 =cut
 
@@ -196,9 +188,7 @@ sub setup_tunnel {
 
 =head2 check_tunnel
 
-    Description: Runs ps and finds an existing tunnel, according to the parameters supplied
-    Arguments: none
-    Returns: pid of tunnel
+    Runs ps and finds an existing tunnel, according to the parameters supplied
     
 =cut
 
@@ -229,9 +219,7 @@ sub check_tunnel {
 
 =head2 destroy_tunnel
 
-    Description: Calls check_tunnel() for existing tunnel, and if it exists, kills it.
-    Arguments: none
-    Returns: none, croaks if it fails to kill.  if there wasn't a tunnel, it doesn't do anything
+    Calls check_tunnel() for existing tunnel, and if it exists, kills it.
     
 =cut
 
@@ -247,9 +235,7 @@ sub destroy_tunnel {
 
 =head2 usage
 
-    Description: The sub to provide help.
-    Arguments: none
-    Returns: none, and exits
+    The sub to provide help.
     
 =cut
 
@@ -325,7 +311,7 @@ L<http://search.cpan.org/dist/Net-SSH-Tunnel/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2012 Satoshi Yagi.
+Copyright 2012-2013 Satoshi Yagi.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
